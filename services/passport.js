@@ -1,4 +1,4 @@
-const passport = require('passport');
+ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
@@ -26,7 +26,8 @@ passport.use(
 	{
 		clientID: keys.googleClientID,
 		clientSecret: keys.googleClientSecret,
-		callbackURL: '/auth/google/callback'
+		callbackURL: '/auth/google/callback',
+		proxy: true
 	}, 
 	(accessToken, refreshToken, profile, done) => {
 		// we have to check if the user exists in db so that it doesn't add twice
