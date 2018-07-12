@@ -27,22 +27,21 @@ passport.use(
 		clientID: keys.googleClientID,
 		clientSecret: keys.googleClientSecret,
 		callbackURL: '/auth/google/callback',
+		// google was coming back without https. It was going though a proxy, Heroku, and it doesn't trust the security of proxys. Therefor, it was changing the security. This tells it to trust me
 		proxy: true
 	}, 
-	(accessToken, refreshToken, profile, done) => {
+	async (accessToken, refreshToken, profile, done) => {
 		// we have to check if the user exists in db so that it doesn't add twice
-		User.findOne({ googleId: profile.id })
-			.then((existingUser) => {
-				if (existingUser) {
-					// we already have a record with the given Profile Id
-					done(null, existingUser);
-				} else {
-					// we don't have a user record with this ID, make a new record
-					new User({ googleId: profile.id }).save()
-						.then(user => done(null, user));
-				}
-			})
+		const existingUser = await User.findOne({ googleId: profile.id });
+		if (existingUser) {
+			// we already have a record with the given Profile Id
+			return done(null, existingUser);
+		} 
+		// we don't have a user record with this ID, make a new record
+		const user = await new User({ googleId: profile.id }).save();
+		done(null, user);
 		
+	
 	}
 	)
 );
