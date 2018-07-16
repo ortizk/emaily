@@ -16,7 +16,7 @@ module.exports = (app) => {
 		// logout is a function provided by passport. 
 		// takes the cookie and kills the id in it
 		req.logout();
-		res.send(req.user);
+		res.redirect('/')
 	});
 
 	app.get('/api/current_user', (req, res) => {
