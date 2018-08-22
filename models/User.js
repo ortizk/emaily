@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 // the previous two are the same. The second is saying that mongoose has a property schema denoted in the {} known as structuring
 
 const userSchema = new Schema({
-	googleId: String
+	googleId: String,
+	credits: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model('users', userSchema);
