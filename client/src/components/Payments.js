@@ -19,5 +19,5 @@ class Payments extends Component {
 			);
 	}
 }
-
+// ADDING SOMETHING. CAN DELETE THIS LINE
 export default connect(null, actions)(Payments);
